@@ -1,0 +1,66 @@
+{% extends "userbase.html"%}
+    {% block content %}
+    <div style="background:white; padding:15px">
+        <div class="container">
+            <div class="jumbotron text-center ml-4 mr-4" style="background:#fcfcfc;">
+                <h1 style="color: rgb(105, 16, 34); font-weight: 300;">Project {{ user.first_name }} {{ user.last_name }}</h1>
+                {% if project %}
+                    <h1>Edit project</h1>
+                {% else %}
+                    <h1>Add project</h1>
+                {% endif %}
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2 text-info"></h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a class="btn btn-sm btn-outline-info" href="/projectHome">
+                            <span data-feather="plus"></span>
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+                <form action="/addProject" method="post" novalidate>
+                    {{ form.hidden_tag() }}
+                    {% if project %}
+                        <input type="hidden" name="hiddenProjectId" value="{{project.project_id}}">
+                    {% else %}
+                        <input type="hidden" name="hiddenProjectId" value="0">
+                    {% endif %}
+                    <div class="form-group">
+                        {{ form.inputProjectName.label(class="sr-only") }}
+                        {{ form.inputProjectName(class="form-control", placeholder="Project name") }}
+                        {% if form.inputProjectName.errors %}
+                            {% for error in form.inputProjectName.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Error:</strong>[{{error}}]
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.inputDescription.label(class="sr-only") }}
+                        {{ form.inputDescription(class="form-control", placeholder="Description") }}
+                        {% if form.inputDescription.errors %}
+                            {% for error in form.inputDescription.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Error:</strong>[{{error}}]
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.inputDealine(class="form-control", placeholder="Write task here") }}
+                        {% if form.inputDealine.errors %}
+                            {% for error in form.inputDealine.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Error:</strong>[{{error}}]
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <p class="lead"></p>
+                    {{form.submit(class="btn btn-lg btn-block", style="background: rgb(230, 71, 71); color:white;")}}
+                </form>
+            </div>
+        </div>
+    </div> 
+{% endblock %}
